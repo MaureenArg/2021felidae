@@ -72,3 +72,19 @@ altitud <-
 ```
 
 # tabla
+```{r}
+felidae %>%
+  select (scientificName, stateProvince, locality, eventDate)%>%
+datatable()
+```
+
+```{r}
+felidae %>%
+  st_drop_geometry() %>%
+  select(scientificName, stateProvince, locality, eventDate) %>%
+datatable()
+```
+```{r}
+datatable (felidae)
+```
+
