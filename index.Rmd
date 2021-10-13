@@ -1,0 +1,74 @@
+---
+title: "felidae (felinos) de CR"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# carga de paquetes y de datos 
+
+```{r}
+library (dplyr)
+library (sf)
+library (terra)
+library (raster)
+library (leaflet)
+```
+
+# paquete para manejo de tablas (DT)
+
+```{r}
+library (DT)
+```
+
+
+# paquetes para graficación 
+```{r}
+library (ggplot2)
+library (plotly)
+```
+
+# Lectura de una capa vectorial (GeoJSON) de provincias de Costa Rica
+
+```{r warning=FALSE, message=FALSE}
+provincias <-
+  st_read(
+    "https://github.com/tpb728O-programaciongeoespacialr/2021ii/raw/main/datos/ign/delimitacion-territorial-administrativa/provincias.geojson",
+    quiet = TRUE
+  )
+```
+
+
+```{r}
+provincias <-
+  provincias %>%
+  st_transform(4326)
+```
+
+
+```{r}
+felidae <-
+  st_read(
+    "/vsicurl/https://raw.githubusercontent.com/tpb728O-programaciongeoespacialr/2021ii/main/datos/gbif/felidae.csv",
+    options = c(
+      "X_POSSIBLE_NAMES=decimalLongitude",
+      "Y_POSSIBLE_NAMES=decimalLatitude"
+    ),
+    quiet = TRUE
+  )
+```
+
+```{r}
+st_crs(felidae)<- 4326
+```
+
+```{r}
+altitud <-
+  rast(
+    "/vsicurl/https://raw.githubusercontent.com/tpb728O-programaciongeoespacialr/2021ii/master/datos/worldclim/altitud.tif"
+  )
+```
+
+# tabla
